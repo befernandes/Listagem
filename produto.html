@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PROJETO GUBEE</title>
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+    <h1>Cadastro de Produtos</h1>
+    </br>
+    <form id="produtoForm">
+        <label for="id">Id:</label>
+        <input type="number" id="id" name="id" required>
+        <br>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <br>
+        <label for="descricao">Descrição:</label>
+        <input type="text" id="descricao" name="descricao" required>
+        <br>
+        <label for="mercado">Mercado:</label>
+        <input type="text" id="mercado" name="mercado" required>
+        <br>
+        <label for="tecnologia">Tecnologia:</label>
+        <input type="text" id="tecnologia" name="tecnologia" required>
+        <br>
+        <input type="submit" value="Cadastrar">
+    </form>
+    <hr>
+    <h2>Lista de Produtos</h2>
+    <table id="produtoTable" border="1">
+        <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>mercado</th>
+            <th>tecnologia</th>
+        </tr>
+        
+    </table>
+    </br>
+    </br>
+    <label for="filtroNome">Nome do Produto:</label>
+      <input type="text" id="filtroNome" name="filtroNome">
+    <script>
+        document.getElementById('produtoForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            var id = document.getElementById('id').value;
+            var nome = document.getElementById('nome').value;
+            var descricao = document.getElementById('descricao').value;
+            var mercado = document.getElementById('mercado').value;
+            var tecnologia = document.getElementById('tecnologia').value;
+
+
+            var novoProduto = {
+                id: id,
+                nome: nome,
+                descricao: descricao,
+                mercado: mercado,
+                tecnologia: tecnologia
+            };
+
+            adicionarProdutoNaTabela(novoProduto);
+
+            document.getElementById('produtoForm').reset();
+        });
+
+        function adicionarProdutoNaTabela(produto) {
+            var table = document.getElementById('produtoTable');
+            var row = table.insertRow();
+            row.innerHTML = `
+                <td>${produto.id}</td>
+                <td>${produto.nome}</td>
+                <td>${produto.descricao}</td>
+                <td>${produto.mercado}</td>
+                <td>${produto.tecnologia}</td>
+
+                <td>
+                    <button onclick="editarProduto(${produto.id})">Editar</button>
+                    <button onclick="excluirProduto(${produto.id})">Excluir</button>
+                </td>
+            `;
+        }
+
+        function editarProduto(id) {
+            alert('Editar produto com ID: ' + id);
+        }
+
+        function excluirProduto(id) {
+            alert('Excluir produto com ID: ' + id);
+        }
+        document.getElementById('filtrTecnologia').addEventListener('input', function(event) {
+        var filtrTecnologia = event.target.value;
+
+        filtrarProdutosPorNome(filtrTecnologia);
+    });
+
+    function filtrarProdutosPorNome(nome) {
+        var table = document.getElementById('produtoTable');
+
+        while (table.rows.length > 1) {
+            table.deleteRow(1);
+        }
+
+        var produtosFiltrados = produtos.filter(function(produto) {
+            return produto.nome.toLowerCase().includes(nome.toLowerCase());
+        });
+
+        produtosFiltrados.forEach(function(produto) {
+            adicionarProdutoNaTabela(produto);
+        });
+    }
+    </script>
+</body>
+</html>
